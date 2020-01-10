@@ -6,7 +6,7 @@
 // postorder traversal.
 
 public class IntBinaryTree {
-    private IntTreeNode overallRoot;
+    public IntTreeNode overallRoot;
 
     public IntBinaryTree() {
         this((IntTreeNode) null);
@@ -15,7 +15,7 @@ public class IntBinaryTree {
     // pre : height >= 0
     // post: constructs a perfect binary tree of given height with random
     //       data values between 0 and 99 inclusive
-    private IntBinaryTree(IntTreeNode overallRoot) {
+    public IntBinaryTree(IntTreeNode overallRoot) {
         this(overallRoot, true);
     }
 
@@ -30,6 +30,7 @@ public class IntBinaryTree {
         }
     }
 
+
     private IntTreeNode deepCopy(IntTreeNode root) {
         if (root == null) {
             return null;
@@ -43,7 +44,7 @@ public class IntBinaryTree {
     }
 
     private int depthSum(IntTreeNode node, int level) {
-        if(node == null)
+        if (node == null)
             return 0;
 
         return level * node.data +
@@ -83,7 +84,22 @@ public class IntBinaryTree {
         }
     }
 
-    private IntBinaryTree(String s) {
+    public int countLeftNodes(IntTreeNode node) {
+        if (node == null) {
+            return 0;
+        } else {
+            int count = 0;
+            if (node.__gotoLeft() != null) {
+                count += 1 + countLeftNodes(node.__gotoLeft());
+            }
+            if (node.__gotoRight() != null) {
+                count += countLeftNodes(node.__gotoRight());
+            }
+            return count;
+        }
+    }
+
+    public IntBinaryTree(String s) {
         overallRoot = fromString(new StringBuilder(s.toLowerCase().trim()));
     }
 
@@ -102,7 +118,7 @@ public class IntBinaryTree {
             return root1 == root2;
         } else {
             return root1.data == root2.data
-                    && (root1.left == root2.left || equals(root1.__gotoLeft(),  root2.__gotoLeft()))
+                    && (root1.left == root2.left || equals(root1.__gotoLeft(), root2.__gotoLeft()))
                     && (root1.right == root2.right || equals(root1.__gotoRight(), root2.__gotoRight()));
         }
     }
@@ -189,7 +205,7 @@ public class IntBinaryTree {
     }
 
     public String toString() {
-        int size   = __getSize();
+        int size = __getSize();
         int height = __getHeight();
         int widest = __getWidest() + 1;
 
@@ -308,7 +324,7 @@ public class IntBinaryTree {
     }
 
     private String mergeLines(String left, String right) {
-        String[] leftLines  = left.split("\n");
+        String[] leftLines = left.split("\n");
         String[] rightLines = right.split("\n");
 
         String[] resultLines = new String[Math.max(leftLines.length, rightLines.length)];
@@ -382,8 +398,7 @@ public class IntBinaryTree {
     private int __getSize(IntTreeNode root) {
         if (root == null) {
             return 0;
-        }
-        else {
+        } else {
             int leftSize = 0;
             IntTreeNode left = root.__gotoLeft();
             if (left != null && !left.cycle()) {
@@ -455,13 +470,11 @@ public class IntBinaryTree {
         } else {
             next = next.substring(1, next.length() - 1).trim();  // remove [] from ends
             StringBuilder nextBuilder = new StringBuilder(next);
-            String rootStr  = nextToken(nextBuilder);
+            String rootStr = nextToken(nextBuilder);
             int data = Integer.parseInt(rootStr);
-            String leftStr  = nextToken(nextBuilder);
+            String leftStr = nextToken(nextBuilder);
             String rightStr = nextToken(nextBuilder);
-            return new IntTreeNode(data,
-                    fromString(new StringBuilder(leftStr)),
-                    fromString(new StringBuilder(rightStr)));
+            return new IntTreeNode(data, fromString(new StringBuilder(leftStr)), fromString(new StringBuilder(rightStr)));
         }
     }
 
@@ -513,28 +526,28 @@ public class IntBinaryTree {
     public static class IntTreeNode {
         private static final java.util.List<IntTreeNode> ALL_NODES = new java.util.ArrayList<>();
 
-        static void clearCycleData() {
+        public static void clearCycleData() {
             clearCycleData(5);
         }
 
-        static void clearCycleData(int visitsAllowed) {
+        public static void clearCycleData(int visitsAllowed) {
             for (IntTreeNode node : ALL_NODES) {
                 node.visitsLeft = visitsAllowed;
             }
         }
 
-        int data;            // data stored at this node
-        IntTreeNode left;    // reference to left subtree
-        IntTreeNode right;   // reference to right subtree
-        int visitsLeft;
+        public int data;            // data stored at this node
+        public IntTreeNode left;    // reference to left subtree
+        public IntTreeNode right;   // reference to right subtree
+        public int visitsLeft;
 
         // Constructs a leaf node with given data.
-        IntTreeNode(int data) {
+        public IntTreeNode(int data) {
             this(data, null, null);
         }
 
         // Constructs a IntTreeNode with the given data and links.
-        IntTreeNode(int data, IntTreeNode left, IntTreeNode right) {
+        public IntTreeNode(int data, IntTreeNode left, IntTreeNode right) {
             ALL_NODES.add(this);
             this.data = data;
             this.left = left;
@@ -542,11 +555,11 @@ public class IntBinaryTree {
             this.visitsLeft = 5;
         }
 
-        IntTreeNode __gotoLeft() {
+        public IntTreeNode __gotoLeft() {
             return __gotoLeft(true);
         }
 
-        IntTreeNode __gotoLeft(boolean checkForCycle) {
+        public IntTreeNode __gotoLeft(boolean checkForCycle) {
             if (checkForCycle) {
                 if (left != null) {
                     if (left.visitsLeft > 0) {
@@ -560,11 +573,11 @@ public class IntBinaryTree {
             return left;
         }
 
-        IntTreeNode __gotoRight() {
+        public IntTreeNode __gotoRight() {
             return __gotoRight(true);
         }
 
-        IntTreeNode __gotoRight(boolean checkForCycle) {
+        public IntTreeNode __gotoRight(boolean checkForCycle) {
             if (checkForCycle) {
                 if (right != null) {
                     if (right.visitsLeft > 0) {
