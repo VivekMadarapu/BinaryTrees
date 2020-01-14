@@ -1,4 +1,7 @@
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.Stack;
 
 public class BinaryTree
 {
@@ -20,7 +23,7 @@ public class BinaryTree
 
         root = new Node(1);
 
-        Queue<Node> queue = new LinkedList<>();
+        LinkedList<Node> queue = new LinkedList<>();
         queue.add(root);
 
         int count = 2;
