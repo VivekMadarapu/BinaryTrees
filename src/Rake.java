@@ -10,10 +10,11 @@ public class Rake {
         outer:
         for (int i = 1; input.hasNext(); i++) {
             BinaryTree tree = new BinaryTree(input.nextLine());
+            System.out.println("Case " + (i+1) + ":");
 
             System.out.println();
             if(tree.root == null){
-                System.out.println("Tree " + (i+1) + " is a right-tree");
+                System.out.println("0");
                 continue;
             }
 
