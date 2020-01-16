@@ -184,7 +184,7 @@ public class BinaryTree
     }
 
 
-    private void printTree(Node node, int space)
+    public void printTree(Node node, int space)
     {
         if (node == null) {
             return;
