@@ -71,7 +71,6 @@ public class Rake {
     }
 
     private static class IntNode{
-
         IntNode left;
         IntNode right;
         int data;
