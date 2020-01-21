@@ -4,12 +4,11 @@ import java.util.*;
 
 public class Rake {
 
-    private static int[] tree;
-    private static int index;
-    private static Hashtable<Integer, Integer> positions;
+    static int[] tree;
+    static int index;
+    static Hashtable<Integer, Integer> positions;
 
     public static void main(String[] args) throws FileNotFoundException {
-
         Scanner kb = new Scanner(new File("rake.dat"));
 
         for (int i = 1;kb.hasNext();i++) {
@@ -24,7 +23,7 @@ public class Rake {
             }
 
             index = 0;
-            IntNode overallNode = addNode(0);
+            TreeNode overallNode = addNode(0);
             storePositions(overallNode);
 
             System.out.printf("Case %d:\n", i);
@@ -37,12 +36,12 @@ public class Rake {
         }
     }
 
-    private static IntNode addNode(int pos){
+    static TreeNode addNode(int pos){
         if(tree[index] == -1){
             return null;
         }
 
-        IntNode node = new IntNode(tree[index], pos);
+        TreeNode node = new TreeNode(tree[index], pos);
         index++;
         node.setLeft(addNode(pos - 1));
         index++;
@@ -51,51 +50,40 @@ public class Rake {
         return node;
     }
 
-    private static void storePositions(IntNode node){
+    static void storePositions(TreeNode node){
         if(node == null){
             return;
         }
-        if(positions.containsKey(node.getPosition() + tree.length)){
-            int num = positions.get(node.getPosition() + tree.length) + node.data;
-            positions.remove(node.getPosition() + tree.length);
-            positions.put(node.getPosition() + tree.length, num);
-            storePositions(node.getLeft());
-            storePositions(node.getRight());
+        if(positions.containsKey(node.position + tree.length)){
+            int num = positions.get(node.position + tree.length) + node.data;
+            positions.remove(node.position + tree.length);
+            positions.put(node.position + tree.length, num);
+            storePositions(node.left);
+            storePositions(node.right);
         }
         else{
-            positions.put(node.getPosition() + tree.length, node.data);
-            storePositions(node.getLeft());
-            storePositions(node.getRight());
+            positions.put(node.position + tree.length, node.data);
+            storePositions(node.left);
+            storePositions(node.right);
         }
-
     }
 
-    private static class IntNode{
-        IntNode left;
-        IntNode right;
+    private static class TreeNode{
+        TreeNode left;
+        TreeNode right;
         int data;
         int position;
 
-        IntNode(int data, int position){
+        TreeNode(int data, int position){
             this.data = data;
             this.position = position;
         }
 
-        public int endIndex(int[] tree, int startIndex){
-            StringBuilder string = new StringBuilder();
-            for (int i: tree) {
-                string.append(i);
-            }
-
-            return (string.toString()).indexOf("-1", startIndex) + 1;
-
-        }
-
-        void setLeft(IntNode left) {
+        void setLeft(TreeNode left) {
             this.left = left;
         }
 
-        void setRight(IntNode right) {
+        void setRight(TreeNode right) {
             this.right = right;
         }
 
@@ -103,25 +91,11 @@ public class Rake {
             return toString2(this);
         }
 
-        String toString2(IntNode node){
+        String toString2(TreeNode node){
             if(node == null){
                 return "-1";
             }
-
             return "(" + node.data + ", " + toString2(node.left) + ", " + toString2(node.right) + ")";
         }
-
-        int getPosition() {
-            return position;
-        }
-
-        IntNode getLeft() {
-            return left;
-        }
-
-        IntNode getRight() {
-            return right;
-        }
-
     }
 }
