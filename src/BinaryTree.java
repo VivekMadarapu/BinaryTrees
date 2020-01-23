@@ -1,7 +1,4 @@
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.Stack;
+import java.util.*;
 
 public class BinaryTree
 {
@@ -23,34 +20,28 @@ public class BinaryTree
 
         root = new Node(1);
 
-        LinkedList<Node> queue = new LinkedList<>();
-        queue.add(root);
+        Queue<Node> stk = new LinkedList<>();
+        stk.add(root);
 
-        int count = 2;
-        while(queue.size() > 0)
+        int cnt = 2;
+        while(stk.size() > 0)
         {
-            Node curr = queue.remove();
+            Node curr = stk.remove();
 
-            if(count > s.length()){
-                break;
-            }
-            if(s.charAt(count - 1) == '0'){
-                toRemove.add(count);
-            }
-            curr.left = new Node(count);
-            queue.add(curr.left);
-            count++;
+            if(cnt > s.length()) break;
+            if(s.charAt(cnt - 1) == '0') toRemove.add(cnt);
+            curr.left = new Node(cnt);
+            stk.add(curr.left);
+            cnt++;
 
-            if(count > s.length()){
-                break;
-            }
-            if(s.charAt(count - 1) == '0'){
-                toRemove.add(count);
-            }
-            curr.right = new Node(count);
-            queue.add(curr.right);
-            count++;
+
+            if(cnt > s.length()) break;
+            if(s.charAt(cnt - 1) == '0') toRemove.add(cnt);
+            curr.right = new Node(cnt);
+            stk.add(curr.right);
+            cnt++;
         }
+
         root = remove(root, toRemove);
     }
 
@@ -69,8 +60,7 @@ public class BinaryTree
         return node;
     }
 
-    public void addNode(int val)
-    {
+    public void addNode(int val){
         Node nNode = new Node(val);
 
         if (root == null) root = nNode;
@@ -109,7 +99,7 @@ public class BinaryTree
     public ArrayList<Integer> getLeaves()
     {
         if(root == null)
-            return new ArrayList<Integer>();
+            return new ArrayList<>();
 
         Stack<Node> stack = new Stack<>();
         stack.add(root);
@@ -198,13 +188,13 @@ public class BinaryTree
         for (int i = COUNT; i < space; i++) {
             System.out.print(" ");
         }
-        System.out.print(node.data + "\n");
+        System.out.print(node.data);
 
         printTree(node.left, space);
     }
 
     public static void main(String[] args) {
-        BinaryTree tree = new BinaryTree("1 2 3 4 5 6 7 8");
+        BinaryTree tree = new BinaryTree("1 2 3 4 6 7");
         tree.print();
 
     }
